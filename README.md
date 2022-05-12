@@ -80,7 +80,7 @@
 
 #### 模型结构图（by powerdesigner）
 
-![img_3.png](image/img_3.png)
+![img_3.png](image/{N~R5~HDF)2ML]S)K0XI[M1.png)
 
 ## 物理设计
 
