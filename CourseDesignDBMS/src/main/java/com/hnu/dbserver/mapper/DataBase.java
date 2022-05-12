@@ -1,14 +1,10 @@
 package com.hnu.dbserver.mapper;
 
-import com.hnu.dbserver.entity.Sno_Que;
 import com.hnu.dbserver.entity.Student;
-import kafka.utils.Json;
-import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,4 +29,19 @@ public interface DataBase {
     List<Map<String,Object>> seleQue();
     @Select("select * from 题库")
     List<Map<String,Object>> seleQueName();
+    /*判断是否已经选题*/
+    @Select(("select 题号 from 学生 where 学号=#{sno}"))
+    String isChosen(String sno);
+    /*确定个人选题*/
+    @Update("update 学生 set 题号=#{qno} where 学号=#{sno}")
+    boolean confirmQue(String qno,String sno);
+    /*添加选题记录*/
+    @Insert("insert into 课程学生用(题号,小组长) values (#{qno},#{leader})")
+    boolean addQueRecord(String qno,String leader);
+    /*判断是否已经有小组长*/
+    @Select("select 小组长 from 课程学生用 where 题号=#{qno}")
+    String seleLeader(String qno);
+    /*获取名字*/
+    @Select("select 姓名 from 学生 where 学号=#{sno}")
+    String seleName(String sno);
 }

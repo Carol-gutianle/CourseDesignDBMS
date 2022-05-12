@@ -51,12 +51,6 @@ export default new VueRouter({
           name: 'tourist_denglu',
           component: () => import("@/components/tourist_denglu")
         },
-
-      {
-        path: 'add_deletelike_user',
-        name: 'add_deletelike_user',
-        component: () => import("@/components/add_deletelike_user")
-      },
       {
         path: 'home',
         name: 'home',

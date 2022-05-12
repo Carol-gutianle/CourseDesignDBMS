@@ -7,7 +7,6 @@
       <el-card style="width: 40%; margin: 10px">
         <i class="el-icon-tickets"></i>
         <p>查看学生选题情况</p>
-
         <div style="text-align: center">
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看</el-button>
         </div>

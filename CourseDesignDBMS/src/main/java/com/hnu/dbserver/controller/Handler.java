@@ -96,6 +96,43 @@ public class Handler {
         response.put("data",db.seleQueCond(sno));
         return response;
     }
+    /*学生选题*/
+    @ResponseBody
+    @CrossOrigin
+    @RequestMapping("chooseQue")
+    public Map chooseQue(@RequestParam String sno,String qno,boolean isLeader) {
+        HashMap<String,Object> response = new HashMap<>();
+        /*修改学生表*/
+        /*判断是否已经选题*/
+        String isChosen = db.isChosen(sno);
+        if(isChosen != null) {
+//            System.out.println(isChosen);
+            response.put("msg", "已选题！");
+        } else {
+            /*修改个人选题表*/
+            if(db.confirmQue(qno,sno)) {
+                response.put("msg","选题成功！");
+                /*是否是组长*/
+                if(isLeader) {
+                    /*判断组长是否存在*/
+                    /*获取个人名字*/
+                    String leader = db.seleName(sno);
+                    if(db.seleLeader(qno) != null) {
+                        response.put("leader","组长已经存在！");
+                    }else {
+                        if(db.addQueRecord(qno,leader)) {
+                            response.put("leader","成功成为小组长！");
+                        } else{
+                            response.put("leader","未知错误！");
+                        }
+                    }
+                }
+            } else {
+                response.put("msg","选题失败！");
+            }
+        }
+        return response;
+    }
     /*学生查询课程情况*/
     @ResponseBody
     @RequestMapping("seleGrade")

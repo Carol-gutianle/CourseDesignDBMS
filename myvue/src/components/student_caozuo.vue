@@ -9,9 +9,9 @@
         <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">
 
           <i class="el-icon-user"></i>
-          <p>填写同组同学信息</p>
+          <p>选题申请</p>
 
-          <el-form-item label="sno" :label-width="formLabelWidth" prop="sno">
+          <el-form-item label="学号" label-width="formLabelWidth" prop="sno">
             <el-input style="width: 200px"
                       placeholder="请输入学号"
                       v-model="form.sno"
@@ -19,142 +19,130 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item label="sname" :label-width="formLabelWidth" >
+          <el-form-item label="题号" label-width="formLabelWidth" >
             <el-input style="width: 200px"
-                      placeholder="请输入姓名"
+                      placeholder="请输入题号"
                       v-model="form.sname"
                       clearable>
             </el-input>
           </el-form-item>
 
-          <el-form-item label="sclass" :label-width="formLabelWidth" >
-            <el-input style="width: 200px"
-                      placeholder="请输入班级"
-                      v-model="form.sclass"
-                      clearable>
-            </el-input>
-          </el-form-item>
-
-          <el-form-item label="sleader" :label-width="formLabelWidth" >
-            <el-input style="width: 200px"
-                      placeholder="请输入组长"
-                      v-model="form.sleader"
-                      clearable>
-            </el-input>
+          <el-form-item label="组长">
+            <el-checkbox :indeterminate="isleader" @change="isLeader">是否担任组长</el-checkbox>
           </el-form-item>
 
           <div style="margin: 50px;"></div>
         </el-form>
 
         <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">添加</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="submit('form')">提交</el-button>
         </div>
 
       </el-card>
 
-      <el-card style="width: 40%; margin: 10px">
+<!--      <el-card style="width: 40%; margin: 10px">-->
 
-        <i class="el-icon-tickets"></i>
-        <p>题库</p>
+<!--        <i class="el-icon-tickets"></i>-->
+<!--        <p>题库</p>-->
 
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看全部</el-button>
-        </div>
+<!--        <div style="text-align: center">-->
+<!--          <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看全部</el-button>-->
+<!--        </div>-->
 
-        <el-divider></el-divider>
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="gotiku">！蹦到全部题库</el-button>
-        </div>
+<!--        <el-divider></el-divider>-->
+<!--        <div style="text-align: center">-->
+<!--          <el-button type="primary" icon="el-icon-edit" @click="gotiku">！蹦到全部题库</el-button>-->
+<!--        </div>-->
 
-        <el-divider></el-divider>
+<!--        <el-divider></el-divider>-->
 
-        <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">
+<!--        <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">-->
 
-          <el-form-item label="kno" :label-width="formLabelWidth" prop="kno">
-            <el-input style="width: 200px"
-                      placeholder="请输入题库号"
-                      v-model="form.kno"
-                      clearable>
-            </el-input>
-          </el-form-item>
+<!--          <el-form-item label="kno" :label-width="formLabelWidth" prop="kno">-->
+<!--            <el-input style="width: 200px"-->
+<!--                      placeholder="请输入题库号"-->
+<!--                      v-model="form.kno"-->
+<!--                      clearable>-->
+<!--            </el-input>-->
+<!--          </el-form-item>-->
 
-          <div style="margin: 50px;"></div>
-        </el-form>
+<!--          <div style="margin: 50px;"></div>-->
+<!--        </el-form>-->
 
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">选择</el-button>
-        </div>
+<!--        <div style="text-align: center">-->
+<!--          <el-button type="primary" icon="el-icon-edit" @click="save('form')">选择</el-button>-->
+<!--        </div>-->
 
-        <p>注意！！！如何保证选择了就不能再选择了啊啊啊</p>
+<!--        <p>注意！！！如何保证选择了就不能再选择了啊啊啊</p>-->
 
-        <el-divider></el-divider>
+<!--        <el-divider></el-divider>-->
 
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看已选题库</el-button>
-        </div>
-        <p>显示了题库</p>
+<!--        <div style="text-align: center">-->
+<!--          <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看已选题库</el-button>-->
+<!--        </div>-->
+<!--        <p>显示了题库</p>-->
 
-      </el-card>
+<!--      </el-card>-->
 
-      <el-card style="width: 40%; margin: 10px">
+<!--      <el-card style="width: 40%; margin: 10px">-->
 
-        <i class="el-icon-document-add"></i>
-        <p>报告</p>
+<!--        <i class="el-icon-document-add"></i>-->
+<!--        <p>报告</p>-->
 
-        <el-upload
-          class="upload-demo"
-          drag
-          action="https://jsonplaceholder.typicode.com/posts/"
-          multiple>
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        </el-upload>
-      </el-card>
+<!--        <el-upload-->
+<!--          class="upload-demo"-->
+<!--          drag-->
+<!--          action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--          multiple>-->
+<!--          <i class="el-icon-upload"></i>-->
+<!--          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+<!--        </el-upload>-->
+<!--      </el-card>-->
 
-      <el-card style="width: 40%; margin: 10px">
+<!--      <el-card style="width: 40%; margin: 10px">-->
 
-        <i class="el-icon-lock"></i>
-        <p>修改密码</p>
+<!--        <i class="el-icon-lock"></i>-->
+<!--        <p>修改密码</p>-->
 
-        <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">
+<!--        <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">-->
 
-          <el-form-item label="spass" :label-width="formLabelWidth" prop="spass">
-            <el-input style="width: 200px"
-                      placeholder="请输入新密码"
-                      v-model="form.spass"
-                      clearable>
-            </el-input>
-          </el-form-item>
+<!--          <el-form-item label="spass" :label-width="formLabelWidth" prop="spass">-->
+<!--            <el-input style="width: 200px"-->
+<!--                      placeholder="请输入新密码"-->
+<!--                      v-model="form.spass"-->
+<!--                      clearable>-->
+<!--            </el-input>-->
+<!--          </el-form-item>-->
 
-          <div style="margin: 50px;"></div>
-        </el-form>
+<!--          <div style="margin: 50px;"></div>-->
+<!--        </el-form>-->
 
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">确认</el-button>
-        </div>
+<!--        <div style="text-align: center">-->
+<!--          <el-button type="primary" icon="el-icon-edit" @click="save('form')">确认</el-button>-->
+<!--        </div>-->
 
-      </el-card>
+<!--      </el-card>-->
 
-      <el-card style="width: 40%; margin: 10px">
+<!--      <el-card style="width: 40%; margin: 10px">-->
 
-        <i class="el-icon-trophy"></i>
-        <p>成绩</p>
+<!--        <i class="el-icon-trophy"></i>-->
+<!--        <p>成绩</p>-->
 
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">刷新</el-button>
-        </div>
+<!--        <div style="text-align: center">-->
+<!--          <el-button type="primary" icon="el-icon-edit" @click="save('form')">刷新</el-button>-->
+<!--        </div>-->
 
-        <el-rate
-          v-model="value"
-          disabled
-          show-score
-          text-color="#ff9900"
-          score-template="{value}">
-        </el-rate>
+<!--        <el-rate-->
+<!--          v-model="value"-->
+<!--          disabled-->
+<!--          show-score-->
+<!--          text-color="#ff9900"-->
+<!--          score-template="{value}">-->
+<!--        </el-rate>-->
 
 
 
-      </el-card>
+<!--      </el-card>-->
 
 
     </div>
@@ -163,11 +151,26 @@
 
 <script>
 import request from "../util/request";
+//检查学号
+var checksno = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入学号'));
+  }
+  else {callback();}
+};
+//检查密码
+var checkspwd = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入密码'));
+  }
+  else {callback();}
+};
 
 export default {
   name: "student_caozuo",
   data() {
     return {
+      isleader:false,
       form:{
         sno: '',
         sname: '',
@@ -178,14 +181,37 @@ export default {
       },
       search: '',
       value: 3.7,//这里返回成绩
+      rules: {
+        sno:[ { validator: checksno, trigger: 'blur'  } ],
+        spwd:[ { validator: checkspwd, trigger: 'blur'  } ]
+      }
     };
   },
 
+
+
   methods: {
+
+    isLeader() {
+      this.isleader = !this.isleader;
+    },
 
     gotiku(){
       this.$router.push({
         path:'../tiku'
+      })
+    },
+
+    submit(form) {
+      this.$refs[form].validate((valid) => {
+        var qs = require('querystring')
+        if(valid) {
+          request.post("/chooseQue",qs.stringify(this.form)).then(res=>{
+            this.$message({
+              message:res.data.msg
+            })
+          })
+        }
       })
     },
 
