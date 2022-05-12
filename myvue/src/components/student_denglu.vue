@@ -70,7 +70,10 @@ export default {
   methods: {
     gocaozuo(){
       this.$router.push({
-        path:'../student_caozuo'
+        path:'../student_caozuo',
+        query:{
+          sno:this.form.sno
+        }
       })
     },
     save(form) {

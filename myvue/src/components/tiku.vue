@@ -56,7 +56,7 @@ export default {
       this.tableData = res.data.data
     })
     return {
-      tableData: tableData
+      tableData: this.tableData
     };
   },
 
