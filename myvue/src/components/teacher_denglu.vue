@@ -9,11 +9,7 @@
           <i class="el-icon-user-solid"></i>
           <p>老师登录</p>
 
-<<<<<<< HEAD
           <el-form-item label="工资号" label-width="formLabelWidth" prop="tno">
-=======
-          <el-form-item label="工资号" :label-width="formLabelWidth" >
->>>>>>> e5f575dddfd7494c35dabe3d4d89156829ecb3c1
             <el-input style="width: 200px"
                       placeholder="请输入工资号"
                       v-model="form.tno"
@@ -21,11 +17,7 @@
             </el-input>
           </el-form-item>
 
-<<<<<<< HEAD
           <el-form-item label="密码" label-width="formLabelWidth" prop="tpwd">
-=======
-          <el-form-item label="密码" :label-width="formLabelWidth" >
->>>>>>> e5f575dddfd7494c35dabe3d4d89156829ecb3c1
             <el-input style="width: 200px"
                       placeholder="请输入密码"
                       v-model="form.tpwd"
@@ -88,11 +80,7 @@ export default {
         if (valid) {
           var qs = require('querystring')
           console.log(this.form)
-<<<<<<< HEAD
           request.post("/teaLogin", qs.stringify(this.form)).then(res => {
-=======
-          request.post("/tesLogin", qs.stringify(this.form)).then(res => {
->>>>>>> e5f575dddfd7494c35dabe3d4d89156829ecb3c1
             if(res.data.code===200) {
               this.gocaozuo()
             } else {
