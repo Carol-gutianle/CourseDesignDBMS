@@ -25,6 +25,12 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+<!--        &lt;!&ndash; 引入org.json所需依赖 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.json</groupId>-->
+<!--            <artifactId>json</artifactId>-->
+<!--            <version>20160810</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -92,7 +98,8 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.41</version>
+            <version>1.2.70</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

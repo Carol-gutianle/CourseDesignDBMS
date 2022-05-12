@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+var root = process.env.API_ROOT;
+
+axios.interceptors.request.use((config)=>{
+  config.url = root + config.url;
+  return config;
+});
+
 const request = axios.create({ //创建一个request对象
 
   timeout: 5000

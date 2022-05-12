@@ -9,26 +9,18 @@
           <i class="el-icon-user-solid"></i>
           <p>学生登录</p>
 
-          <el-form-item label="sno" :label-width="formLabelWidth" prop="sno">
+          <el-form-item label="sno" label-width="formLabelWidth" >
             <el-input style="width: 200px"
-                      placeholder="请输入学号"
+                      placeholder="请输入姓名"
                       v-model="form.sno"
                       clearable>
             </el-input>
           </el-form-item>
 
-          <el-form-item label="sname" :label-width="formLabelWidth" >
-            <el-input style="width: 200px"
-                      placeholder="请输入姓名"
-                      v-model="form.sname"
-                      clearable>
-            </el-input>
-          </el-form-item>
-
-          <el-form-item label="spass" :label-width="formLabelWidth" >
+          <el-form-item label="spwd" label-width="formLabelWidth" >
             <el-input style="width: 200px"
                       placeholder="请输入密码"
-                      v-model="form.spass"
+                      v-model="form.spwd"
                       clearable>
             </el-input>
           </el-form-item>
@@ -38,6 +30,12 @@
 
         <div style="text-align: center">
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">登录</el-button>
+        </div>
+
+        <el-divider></el-divider>
+
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="gocaozuo">跳转到学生操作</el-button>
         </div>
 
       </el-card>
@@ -51,28 +49,17 @@ import request from "../util/request";
 export default {
   name: "student_denglu",
   data() {
-    //检查学号
-    var checksno = (rule, value, callback) => {
-      if (!value) {
-        callback();
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字'));
-        }
-        else { callback();}
-      }, 1000);
-    };
     //检查姓名
-    var checksname = (rule, value, callback) => {
+    var checksno = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入名字'));
       }
       else {callback();}
     };
     //检查密码
-    var checkspass = (rule, value, callback) => {
+    var checkspwd = (rule, value, callback) => {
       if (!value) {
+
         callback(new Error('请输入密码'));
       }
       else {callback();}
@@ -80,65 +67,68 @@ export default {
 
     return {
       form:{
-        sno: '',
-        sname: '',
-        spass:'',
+        "sno": "201909060110",
+        'spwd': '201909060110',
       },
       search: '',
 
       rules: {
-        sname:[ { validator: checksname, trigger: 'blur'  }, ],
-        sno: [ { validator: checksno, trigger: 'blur' }, ],
-        spass:[ { validator: checkspass, trigger: 'blur'  } ]
+        sno:[ { validator: checksno, trigger: 'blur'  }, ],
+        spwd:[ { validator: checkspwd, trigger: 'blur'  } ]
       }
     };
   },
 
   methods: {
+    gocaozuo(){
+      this.$router.push({
+        path:'../student_caozuo'
+      })
+    },
     save(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-
-          request.post("/api/person/addPerson", this.form).then(res => {
-
-            console.log(res.data); //打印出来
-            if ((res.data !== 0)) {
-              if ((res.data === 1)){
-                this.$message({
-                  type: "success",
-                  message: "成功添加"+this.form.name
-                })
-              }else{
-                this.$confirm("用户名"+this.form.username+"已存在，需要修改信息吗？", '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'warning'
-                }).then(() => {
-                  request.put("/api/person/updatePerson",this.form).then(res=> {
-                    console.log(res) //打印出来
-                    if (res.code !== '0') {
-                      this.$message({
-                        type: "success",
-                        message: "修改成功"
-                      })
-
-                    }
-                  });
-
-                }).catch(() => {
-                  this.$message({
-                    type: 'info',
-                    message: '已取消修改'
-                  });
-                });
-              }
-
-            } else {
-              this.$message({
-                type: "error",
-                message: "名称"+this.form.name+"重复,请重新填写"
-              })
-            }
+          var qs = require('querystring')
+          console.log(this.form)
+          request.post("/stuLogin", qs.stringify(this.form)).then(res => {
+            console.log(res); //打印出来
+            // if ((res.data !== 0)) {
+            //   if ((res.data === 1)){
+            //     this.$message({
+            //       type: "success",
+            //       message: "成功添加"+this.form.name
+            //     })
+            //   }else{
+            //     this.$confirm("用户名"+this.form.username+"已存在，需要修改信息吗？", '提示', {
+            //       confirmButtonText: '确定',
+            //       cancelButtonText: '取消',
+            //       type: 'warning'
+            //     }).then(() => {
+            //       request.put("/127.0.0.1:8080/stuLogin",this.form).then(res=> {
+            //         console.log(res) //打印出来
+            //         if (res.code !== '0') {
+            //           this.$message({
+            //             type: "success",
+            //             message: "修改成功"
+            //           })
+            //
+            //         }
+            //       });
+            //
+            //     }).catch(() => {
+            //       this.$message({
+            //         type: 'info',
+            //         message: '已取消修改'
+            //       });
+            //     });
+            //   }
+            //
+            // } else {
+            //   this.$message({
+            //     type: "error",
+            //     message: "名称"+this.form.name+"重复,请重新填写"
+            //   })
+            // }
           })
         }
       });

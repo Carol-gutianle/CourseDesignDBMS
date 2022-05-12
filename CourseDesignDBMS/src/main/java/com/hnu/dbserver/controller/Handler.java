@@ -1,41 +1,34 @@
 package com.hnu.dbserver.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hnu.dbserver.mapper.DataBase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 @CrossOrigin
-@Controller
+@RestController
 public class Handler {
     @Autowired
     DataBase db;
 
     /*学生登录*/
-    @ResponseBody
-    @RequestMapping("stuLogin")
-    public Map stuLogin(@RequestParam String sno, String spwd) {
-        HashMap<String,Object> response = new HashMap<String,Object>();
+    @PostMapping("/stuLogin")
+    public com.alibaba.fastjson.JSONObject stuLogin(@RequestParam("sno") String sno,@RequestParam("spwd") String spwd) {
+        com.alibaba.fastjson.JSONObject response = new JSONObject();
         if(db.stuLogin(sno,spwd).size()!=0){
             response.put("code",200);
             response.put("msg","登录成功");
             response.put("type","学生");
-            return response;
         }
         else {
             response.put("code",404);
             response.put("msg","登录失败");
             response.put("type","学生");
-            return response;
         }
+        return response;
     }
 
     /*学生修改密码*/

@@ -12,7 +12,11 @@
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看</el-button>
         </div>
 
-        <p>！：蹦到进阶操作</p>
+        <el-divider></el-divider>
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="gocaozuo2">!进阶2</el-button>
+        </div>
+
       </el-card>
 
       <el-card style="width: 40%; margin: 10px">
@@ -75,6 +79,17 @@ export default {
   },
 
   methods: {
+
+    gocaozuo2(){
+      this.$router.push({
+        path:'../teacher_caozuo2'
+      })
+    },
+
+
+
+
+
     save(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {

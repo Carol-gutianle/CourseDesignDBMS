@@ -61,7 +61,10 @@
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看全部</el-button>
         </div>
 
-        <p>！蹦到全部题库</p>
+        <el-divider></el-divider>
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="gotiku">！蹦到全部题库</el-button>
+        </div>
 
         <el-divider></el-divider>
 
@@ -179,6 +182,15 @@ export default {
   },
 
   methods: {
+
+    gotiku(){
+      this.$router.push({
+        path:'../tiku'
+      })
+    },
+
+
+
     save(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {

@@ -9,14 +9,6 @@
           <i class="el-icon-user-solid"></i>
           <p>老师登录</p>
 
-          <el-form-item label="tno" :label-width="formLabelWidth" prop="tno">
-            <el-input style="width: 200px"
-                      placeholder="请输入工资号"
-                      v-model="form.tno"
-                      clearable>
-            </el-input>
-          </el-form-item>
-
           <el-form-item label="tname" :label-width="formLabelWidth" >
             <el-input style="width: 200px"
                       placeholder="请输入姓名"
@@ -40,6 +32,11 @@
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">登录</el-button>
         </div>
 
+        <el-divider></el-divider>
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="gocaozuo">跳转到老师操作</el-button>
+        </div>
+
       </el-card>
     </div>
   </div>
@@ -51,18 +48,6 @@ import request from "../util/request";
 export default {
   name: "teacher_denglu",
   data() {
-    //检查工资号
-    var checktno = (rule, value, callback) => {
-      if (!value) {
-        callback();
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字'));
-        }
-        else { callback();}
-      }, 1000);
-    };
     //检查姓名
     var checktname = (rule, value, callback) => {
       if (!value) {
@@ -80,7 +65,6 @@ export default {
 
     return {
       form:{
-        tno: '',
         tname: '',
         tpass:'',
       },
@@ -88,13 +72,23 @@ export default {
 
       rules: {
         tname:[ { validator: checktname, trigger: 'blur'  }, ],
-        tno: [ { validator: checktno, trigger: 'blur' }, ],
         tpass: [ { validator: checktpass, trigger: 'blur' } ]
       }
     };
   },
 
-  methods: {
+  methods:{
+
+    gocaozuo(){
+      this.$router.push({
+      path:'../teacher_caozuo'
+    })
+    },
+
+
+
+
+
     save(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
