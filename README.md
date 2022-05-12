@@ -46,19 +46,22 @@
 
 #### 教师
 
-![img.png](image/img.png)
+![zd1.png](image/zd1.png)
 
 #### 学生
 
-![image/img1.png](image/img.png)
+![image/zd4.png](image/zd4.png)
 
 #### 题库
 
-![img_1.png](image/img_1.png)
+![zd3.png](image/zd3.png)
 
 #### 课题学生用
 
-![img_2.png](image/img_2.png)
+![zd2.png](image/zd2.png)
+#### 资料
+
+![zd5.png](image/zd5.png)
 
 ## 概念结构设计
 
@@ -80,7 +83,7 @@
 
 #### 模型结构图（by powerdesigner）
 
-![img_3.png](image/{N~R5~HDF)2ML]S)K0XI[M1.png)
+![w1.png](image/w1)
 
 ## 物理设计
 
