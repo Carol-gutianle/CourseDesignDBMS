@@ -9,7 +9,7 @@
           <i class="el-icon-user-solid"></i>
           <p>学生登录</p>
 
-          <el-form-item label="sno" label-width="formLabelWidth" >
+          <el-form-item label="学号" label-width="formLabelWidth" prop="sno">
             <el-input style="width: 200px"
                       placeholder="请输入姓名"
                       v-model="form.sno"
@@ -17,7 +17,7 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item label="spwd" label-width="formLabelWidth" >
+          <el-form-item label="密码" label-width="formLabelWidth" prop="spwd" >
             <el-input style="width: 200px"
                       placeholder="请输入密码"
                       v-model="form.spwd"
@@ -27,15 +27,8 @@
 
           <div style="margin: 50px;"></div>
         </el-form>
-
         <div style="text-align: center">
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">登录</el-button>
-        </div>
-
-        <el-divider></el-divider>
-
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="gocaozuo">跳转到学生操作</el-button>
         </div>
 
       </el-card>
@@ -45,35 +38,30 @@
 
 <script>
 import request from "../util/request";
+//检查姓名
+var checksno = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入名字'));
+  }
+  else {callback();}
+};
+//检查密码
+var checkspwd = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入密码'));
+  }
+  else {callback();}
+};
 
 export default {
-  name: "student_denglu",
   data() {
-    //检查姓名
-    var checksno = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('请输入名字'));
-      }
-      else {callback();}
-    };
-    //检查密码
-    var checkspwd = (rule, value, callback) => {
-      if (!value) {
-
-        callback(new Error('请输入密码'));
-      }
-      else {callback();}
-    };
-
     return {
       form:{
-        "sno": "201909060110",
-        'spwd': '201909060110',
+        sno: '',
+        spwd: '',
       },
-      search: '',
-
       rules: {
-        sno:[ { validator: checksno, trigger: 'blur'  }, ],
+        sno:[ { validator: checksno, trigger: 'blur'  } ],
         spwd:[ { validator: checkspwd, trigger: 'blur'  } ]
       }
     };
@@ -91,45 +79,18 @@ export default {
           var qs = require('querystring')
           console.log(this.form)
           request.post("/stuLogin", qs.stringify(this.form)).then(res => {
-            console.log(res); //打印出来
-            // if ((res.data !== 0)) {
-            //   if ((res.data === 1)){
-            //     this.$message({
-            //       type: "success",
-            //       message: "成功添加"+this.form.name
-            //     })
-            //   }else{
-            //     this.$confirm("用户名"+this.form.username+"已存在，需要修改信息吗？", '提示', {
-            //       confirmButtonText: '确定',
-            //       cancelButtonText: '取消',
-            //       type: 'warning'
-            //     }).then(() => {
-            //       request.put("/127.0.0.1:8080/stuLogin",this.form).then(res=> {
-            //         console.log(res) //打印出来
-            //         if (res.code !== '0') {
-            //           this.$message({
-            //             type: "success",
-            //             message: "修改成功"
-            //           })
-            //
-            //         }
-            //       });
-            //
-            //     }).catch(() => {
-            //       this.$message({
-            //         type: 'info',
-            //         message: '已取消修改'
-            //       });
-            //     });
-            //   }
-            //
-            // } else {
-            //   this.$message({
-            //     type: "error",
-            //     message: "名称"+this.form.name+"重复,请重新填写"
-            //   })
-            // }
+            if(res.data.code===200) {
+              this.gocaozuo()
+            } else {
+              this.$message({
+                type: "error",
+                message: "账号或密码错误！"
+              })
+            }
           })
+        }
+        else {
+          console.log('error')
         }
       });
     },

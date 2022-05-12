@@ -8,14 +8,8 @@ export default new VueRouter({
       path: '/',
       name:'layout',
       component: layout,
-      redirect:'/add_deletelike_person',
+      redirect:'/student_denglu',
       children:[
-      {
-        path: 'add_deletelike_person',
-        name: 'add_deletelike_person',
-        component: () => import("@/components/add_deletelike_person")
-      },
-
         {
           path: 'student_denglu',
           name: 'student_denglu',
