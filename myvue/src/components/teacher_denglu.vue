@@ -9,18 +9,18 @@
           <i class="el-icon-user-solid"></i>
           <p>老师登录</p>
 
-          <el-form-item label="tno" :label-width="formLabelWidth" prop="tno">
+          <el-form-item label="工资号" :label-width="formLabelWidth" >
             <el-input style="width: 200px"
-                      placeholder="请输入账号号"
+                      placeholder="请输入工资号"
                       v-model="form.tno"
                       clearable>
             </el-input>
           </el-form-item>
 
-          <el-form-item label="tpass" :label-width="formLabelWidth" >
+          <el-form-item label="密码" :label-width="formLabelWidth" >
             <el-input style="width: 200px"
                       placeholder="请输入密码"
-                      v-model="form.tpass"
+                      v-model="form.tpwd"
                       clearable>
             </el-input>
           </el-form-item>
@@ -31,26 +31,48 @@
         <div style="text-align: center">
           <el-button type="primary" icon="el-icon-edit" @click="save('form')">登录</el-button>
         </div>
-
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
+import request from "../util/request";
+
 export default {
+  name: "teacher_denglu",
   data() {
-/*数据名称*/
-    return {
-        tno: '',
-        tpass:'',
+    //检查账号
+    var checktno = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入工资号'));
       }
+      else {callback();}
+    };
+    //检查密码
+    var checktpwd = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入密码'));
+      }
+      else {callback();}
+    };
+
+    return {
+      form:{
+        tno: '',
+        tpwd:'',
+      },
+      rules: {
+        tno:[ { validator: checktno, trigger: 'blur'  }, ],
+        tpwd: [ { validator: checktpwd, trigger: 'blur' } ]
+      }
+    };
   },
-  methods: {
+
+  methods:{
     gocaozuo(){
-      this.$router.push({path:'../teacher_caozuo'
+      this.$router.push({
+        path:'../teacher_caozuo'
       })
     },
     save(form) {
@@ -58,7 +80,7 @@ export default {
         if (valid) {
           var qs = require('querystring')
           console.log(this.form)
-          request.post("/stuLogin", qs.stringify(this.form)).then(res => {
+          request.post("/tesLogin", qs.stringify(this.form)).then(res => {
             if(res.data.code===200) {
               this.gocaozuo()
             } else {
@@ -73,10 +95,9 @@ export default {
           console.log('error')
         }
       });
-    },
-  }
 
-}
+    },
+  }}
 </script>
 
 <style scoped>
