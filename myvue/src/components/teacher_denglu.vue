@@ -11,7 +11,7 @@
 
           <el-form-item label="tno" :label-width="formLabelWidth" prop="tno">
             <el-input style="width: 200px"
-                      placeholder="请输入工资号"
+                      placeholder="请输入账号号"
                       v-model="form.tno"
                       clearable>
             </el-input>
