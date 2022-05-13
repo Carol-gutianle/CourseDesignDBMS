@@ -21,10 +21,10 @@ public interface DataBase {
     List<Map<String,Object>> seleQueCond(String sno);
     @Select("select 分数 from 学生,课程学生用 where 学生.题号=课程学生用.题号 and 学生.学号=#{sno}")
     Map<String,Object> seleGrade(String sno);
-    @Update("update 课程学生用 set 进度情况=#{progress} where 题号=#{qno}")
-    int setProgress(String qno,String progress);
-    @Update("update 课程学生用 set 分数=#{grade} where 题号=#{qno}")
-    boolean setGrade(String qno,String grade);
+    @Update("update 课程学生用 set 进度情况=#{progress} where 题号=#{qno} and 小组长=#{gleader}")
+    int setProgress(String qno,String gleader,String progress);
+    @Update("update 课程学生用 set 分数=#{grade} where 题号=#{qno} and 小组长=#{gleader}")
+    boolean setGrade(String qno,String gleader,String grade);
     @Select("select * from 学生,题库 where 学生.题号=题库.题号")
     List<Map<String,Object>> seleQue();
     @Select("select * from 题库")
@@ -50,4 +50,7 @@ public interface DataBase {
     /*获取题号*/
     @Select("select 题号 from 学生 where 学号=#{sno}")
     String getQno(String sno);
+    /*获取学生选题情况数据：题号 小组长 工作报告 进度情况 分数*/
+    @Select("select * from 课程学生用")
+    List<Map<String,Object>>seleGData();
 }

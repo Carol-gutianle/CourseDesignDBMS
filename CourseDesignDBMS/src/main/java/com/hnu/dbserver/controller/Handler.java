@@ -147,9 +147,9 @@ public class Handler {
     /*教师填写项目进度情况*/
     @ResponseBody
     @RequestMapping("setProgress")
-    public Map setProgress(String qno,String progress) {
+    public Map setProgress(String qno,String gleader,String progress) {
         HashMap<String,Object> response = new HashMap<String,Object>();
-        if(db.setProgress(qno,progress)!=0) {
+        if(db.setProgress(qno,gleader,progress)!=0) {
             response.put("msg","修改成功！");
         }else{
             response.put("msg","修改失败！");
@@ -159,9 +159,9 @@ public class Handler {
     /*教师给课程设计评分*/
     @ResponseBody
     @RequestMapping("setGrade")
-    public Map setGrade(String qno,String grade) {
+    public Map setGrade(String qno,String gleader,String grade) {
         HashMap<String,Object> response = new HashMap<String,Object>();
-        if(db.setGrade(qno,grade)) {
+        if(db.setGrade(qno,gleader,grade)) {
             response.put("msg","成绩修改成功！");
         } else {
             response.put("msg","成绩修改失败！");
@@ -199,7 +199,19 @@ public class Handler {
         return response;
     }
     /*查看学习资料*/
-
+    /*查询选题情况*/
+    @ResponseBody
+    @RequestMapping("seleGData")
+    public Map seleGData() {
+        HashMap<String,Object> response = new HashMap<String,Object>();
+        if(db.seleGData().size()!=0) {
+            response.put("data",db.seleGData());
+            response.put("msg","获取题库成功");
+        } else {
+            response.put("msg","获取题库失败");
+        }
+        return response;
+    }
 
 
 
