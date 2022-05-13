@@ -60,6 +60,7 @@ export default {
         sno: '',
         spwd: '',
       },
+      qno: '',
       rules: {
         sno:[ { validator: checksno, trigger: 'blur'  } ],
         spwd:[ { validator: checkspwd, trigger: 'blur'  } ]
@@ -72,7 +73,8 @@ export default {
       this.$router.push({
         path:'../student_caozuo',
         query:{
-          sno:this.form.sno
+          sno:this.form.sno,
+          qno:this.qno
         }
       })
     },
@@ -83,6 +85,7 @@ export default {
           console.log(this.form)
           request.post("/stuLogin", qs.stringify(this.form)).then(res => {
             if(res.data.code===200) {
+              this.qno = res.data["题号"]
               this.gocaozuo()
             } else {
               this.$message({

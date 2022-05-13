@@ -1,7 +1,9 @@
 package com.hnu.dbserver.controller;
 
+import com.hnu.dbserver.mapper.DataBase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -11,19 +13,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 @Component
 @RestController
 public class UploadController {
+    @Autowired
+    DataBase db;
     /**
      * 本地保存路径
      */
-//    @Value("${file.path}")
     String dirPath = "T:\\gtl\\";
 
-    @RequestMapping(value = "upload")
     public String upload(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         //文件后缀
@@ -37,6 +41,22 @@ public class UploadController {
                 .toUriString();
         return returnPath;
     }
+    /*学生文件上传*/
+    @PostMapping(value = "/stuUpload")
+    public Map stuUpload(MultipartFile file, String th) throws IOException {
+        HashMap<String,Object> response = new HashMap<String,Object>();
+        String qno=th; //题号获取
+        String returnPath = upload(file);
+        if(db.stuSetfile(qno,returnPath)) {
 
+            response.put("code", 200);
+            response.put("msg", "上传报告成功！");
+        }
+        else{
+            response.put("code", 404);
+            response.put("msg", "上传报告失败！");
+        }
+        return response;
 
+    }
 }

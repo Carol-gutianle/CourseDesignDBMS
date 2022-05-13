@@ -18,9 +18,12 @@ public class Handler {
     @PostMapping("/stuLogin")
     public com.alibaba.fastjson.JSONObject stuLogin(@RequestParam("sno") String sno,@RequestParam("spwd") String spwd) {
         com.alibaba.fastjson.JSONObject response = new JSONObject();
+        String qno = db.getQno(sno);
         if(db.stuLogin(sno,spwd).size()!=0){
             response.put("code",200);
             response.put("msg","登录成功");
+            response.put("account",sno);
+            response.put("题号",qno);
             response.put("type","学生");
         }
         else {
@@ -72,9 +75,9 @@ public class Handler {
     /*教师修改密码*/
     @ResponseBody
     @RequestMapping("teaUpdatePwd")
-    public Map teaUpdatePwd(@RequestParam String tno, String ntpwd) {
+    public Map teaUpdatePwd(@RequestParam String tno, String tpass) {
         HashMap<String,Object> response = new HashMap<String,Object>();
-        if(db.teaUpdatePwd(tno,ntpwd)!=0){
+        if(db.teaUpdatePwd(tno,tpass)!=0){
             response.put("code",200);
             response.put("msg","修改密码成功");
             response.put("type","教师");
@@ -196,6 +199,7 @@ public class Handler {
         return response;
     }
     /*查看学习资料*/
+
 
 
 

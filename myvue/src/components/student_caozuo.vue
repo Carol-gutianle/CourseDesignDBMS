@@ -47,23 +47,40 @@
         <i class="el-icon-tickets"></i>
         <p>查看资料</p>
 
-      <div style="text-align: center">
-        <el-button type="primary" icon="el-icon-edit" @click="goziliao">查看资料</el-button>
-      </div>
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="goziliao">查看资料</el-button>
+        </div>
 
 
       </el-card>
 
+      <!--                                         lxt                                      -->
       <el-card style="width: 40%; margin: 10px">
-
-        <i class="el-icon-document-add"></i>
         <p>上传报告</p>
-        <form method="post" action="http://localhost:8080/upload" enctype="multipart/form-data">
-          选择要上传的文件：<input type="file" name="file"><br>
-          <hr>
-          <input type="submit" value="提交">
-        </form>
+        <el-form :model="newform1"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="newform">
+          <el-form-item label="上传文件"  prop="uploadfile">
+            <el-upload
+              class="upload-demo"
+              ref="upload"
+              action="/api/upload"
+              :http-request="httprequest"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              multiple
+              :file-list="fileList"
+              :data="newform1"
+              :auto-upload="false"
+              :on-change="getfile"
+              name="uploadfile"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+
+            </el-upload>
+          </el-form-item>
+          <el-button type="primary" @click="submituploadform('newform1')">提交</el-button>
+        </el-form>
       </el-card>
+      <!--                                         lxt                                      -->
 
       <el-card style="width: 40%; margin: 10px">
 
@@ -123,7 +140,6 @@ var checkspwd = (rule, value, callback) => {
   }
   else {callback();}
 };
-
 //检查密码
 var checknspwd = (rule, value, callback) => {
   if (!value) {
@@ -132,23 +148,46 @@ var checknspwd = (rule, value, callback) => {
   else {callback();}
 };
 
+//检查
+var checkth = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入题号'));
+  }
+  else {callback();}
+};
+
 export default {
   name: "student_caozuo",
   data() {
+
     var qs = require('querystring');
     var cursno = this.$route.query.sno
+    var curqno = this.$route.query.qno
     var snoform = {sno:cursno}
     request.post("/seleGrade",qs.stringify(snoform)).then(res=>{
       this.value = res.data.data["分数"]
       console.log(this.value)
     })
+    /*获取题号*/
+
     return {
+      /*---------------------------------lxt 文件上传----------------------------------*/
+      fileList: [],
+      fd: {},
+      newform1:{
+
+        th: curqno
+      },
+      /*---------------------------------lxt 文件上传----------------------------------*/
+
+
       isleader: false,
       cursno: cursno,
       newform:{
         sno: cursno,
         nspwd: ''
       },
+
       form:{
         sno: this.cursno,
         sname: '',
@@ -163,6 +202,7 @@ export default {
         sno:[ { validator: checksno, trigger: 'blur'  } ],
         spwd:[ { validator: checkspwd, trigger: 'blur'  } ],
         nspwd:[ { validator: checknspwd, trigger: 'blur'  } ],
+        th:[ { validator: checkth, trigger: 'blur'  } ],
       }
     };
   },
@@ -170,6 +210,47 @@ export default {
 
 
   methods: {
+    /*---------------------------------lxt 文件上传----------------------------------*/
+    getfile(file, fileList) {
+      const fd = new FormData()// FormData 对象
+      this.fd = fd
+    },
+    httprequest(param) {
+      const fileObj = param.file // 相当于input里取得的files
+      this.fd.append('file', fileObj)// 文件对象
+    },
+    submituploadform(file) {
+      this.$refs.upload.submit()
+      this.fd.append('th', this.newform1.th)
+
+      // uploadAnnex(this.fd).then(res => {
+      request.post("/api/upload", this.fd).then(res=>{
+        if(res.data.code===200) {
+          this.$message({
+            type: "success",
+            message: "上传成功！"
+          })
+        }
+        else {
+          this.$message({
+            type: "error",
+            message: "上传失败！"
+          })
+        }
+      })
+      this.fd = {}
+      this.fileList = []
+      this.th=''
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    /*---------------------------------lxt 文件上传----------------------------------*/
+
+
 
     isLeader() {
       this.isleader = !this.isleader;
@@ -181,7 +262,8 @@ export default {
         if (valid) {
           request.post("/stuUpdatePwd",qs.stringify(this.newform)).then(res=>{
             this.$message({
-              message:res.data.msg
+              type: "success",
+              message:"更新成功！"
             })
           })
         }
@@ -203,9 +285,18 @@ export default {
         var qs = require('querystring')
         if(valid) {
           request.post("/chooseQue",qs.stringify(this.form)).then(res=>{
-            this.$message({
-              message:res.data.msg
-            })
+            if(res.data.code===200) {
+              this.$message({
+                type: "success",
+                message: "上传成功！"
+              })
+            }
+            else {
+              this.$message({
+                type: "error",
+                message: "上传失败！"
+              })
+            }
           })
         }
       })

@@ -44,4 +44,10 @@ public interface DataBase {
     /*获取名字*/
     @Select("select 姓名 from 学生 where 学号=#{sno}")
     String seleName(String sno);
+    /*学生上传文件*/
+    @Update("update 课程学生用 set 工作报告=#{screport} where 题号=#{qno}")
+    boolean stuSetfile(String qno,String screport);
+    /*获取题号*/
+    @Select("select 题号 from 学生 where 学号=#{sno}")
+    String getQno(String sno);
 }

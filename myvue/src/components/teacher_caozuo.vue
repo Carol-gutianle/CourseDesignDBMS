@@ -34,7 +34,6 @@
         <p>修改密码</p>
 
         <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">
-
           <el-form-item label="新密码" label-width="formLabelWidth" prop="tpass">
             <el-input style="width: 200px"
                       placeholder="请输入新密码"
@@ -47,7 +46,7 @@
         </el-form>
 
         <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">确认</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="newpass('form')">确认</el-button>
         </div>
 
       </el-card>
@@ -69,7 +68,6 @@ var checktpass = (rule, value, callback) => {
 export default {
   name: "teacher_caozuo",
   data() {
-
     var curtno = this.$route.query.tno
     return {
       form:{
@@ -87,17 +85,18 @@ export default {
         path:'../teacher_caozuo2'
       })
     },
-    save(form) {
+    //密码修改
+    newpass(form){
+      var qs = require('querystring')
       this.$refs[form].validate((valid) => {
-        var qs = require('querystring')
         if (valid) {
-          request.post("/teaUpdatePwd", qs.stringify(this.form)).then(res => {
+          request.post("/teaUpdatePwd",qs.stringify(this.form)).then(res=>{
             this.$message({
               message:res.data.msg
             })
           })
         }
-      });
+      })
     },
   }
 }
