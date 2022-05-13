@@ -21,27 +21,34 @@
       </el-table-column>
 
       <el-table-column
+        fixed
+        prop="选题"
+        label="选题"
+        width="100">
+      </el-table-column>
+
+      <el-table-column
         label="查看报告"
         width="100">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" >查看</el-button>
-        </template>
+        <el-link href="https://element.eleme.io" target="_blank">报告链接</el-link>
       </el-table-column>
 
       <el-table-column
         label="填写进度"
         width="100">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" >填写</el-button>
-        </template>
+        <el-input v-model="input1" placeholder="请填写进度"></el-input>
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="tianxie('input1')">确认</el-button>
+        </div>
       </el-table-column>
 
       <el-table-column
         label="批改分数"
         width="100">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" >批改</el-button>
-        </template>
+        <el-input v-model="input2" placeholder="请批改分数"></el-input>
+        <div style="text-align: center">
+          <el-button type="primary" icon="el-icon-edit" @click="pigai('input2')">确认</el-button>
+        </div>
       </el-table-column>
 
     </el-table>
@@ -69,59 +76,43 @@ export default {
   name: "teacher_caozuo2",
   data() {
     return {
-      search: '',
-    };
+      input1:'',
+      input2:''
+    }
   },
 
   methods: {
-    save(form) {
-      this.$refs[form].validate((valid) => {
+
+    tianxie(input1){
+      var qs = require('querystring')
+      this.$refs[input1].validate((valid) => {
         if (valid) {
-
-          request.post("/api/person/addPerson", this.form).then(res => {
-
-            console.log(res.data); //打印出来
-            if ((res.data !== 0)) {
-              if ((res.data === 1)){
-                this.$message({
-                  type: "success",
-                  message: "成功添加"+this.form.name
-                })
-              }else{
-                this.$confirm("用户名"+this.form.username+"已存在，需要修改信息吗？", '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'warning'
-                }).then(() => {
-                  request.put("/api/person/updatePerson",this.form).then(res=> {
-                    console.log(res) //打印出来
-                    if (res.code !== '0') {
-                      this.$message({
-                        type: "success",
-                        message: "修改成功"
-                      })
-
-                    }
-                  });
-
-                }).catch(() => {
-                  this.$message({
-                    type: 'info',
-                    message: '已取消修改'
-                  });
-                });
-              }
-
-            } else {
-              this.$message({
-                type: "error",
-                message: "名称"+this.form.name+"重复,请重新填写"
-              })
-            }
+          request.post("/setProgress",qs.stringify(this.input1)).then(res=>{
+            this.$message({
+              message:res.data.msg
+            })
           })
         }
-      });
+      })
     },
+
+    pigai(input2){
+      var qs = require('querystring')
+      this.$refs[input2].validate((valid) => {
+        if (valid) {
+          request.post("/setGrade",qs.stringify(this.input2)).then(res=>{
+            this.$message({
+              message:res.data.msg
+            })
+          })
+        }
+      })
+    },
+
+
+
+
+
   }
 
 }

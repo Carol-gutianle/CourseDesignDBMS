@@ -8,6 +8,13 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-      location: /Users/gtl
+      location: /gtl
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:T:\\gtl\
 mybatis:
   type-aliases-package: com.hnu.dbserver.entity
+server:
+  port: 8080
+
+

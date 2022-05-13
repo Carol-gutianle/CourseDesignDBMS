@@ -8,12 +8,7 @@
         <i class="el-icon-tickets"></i>
         <p>查看学生选题情况</p>
         <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="save('form')">查看</el-button>
-        </div>
-
-        <el-divider></el-divider>
-        <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="gocaozuo2">!进阶2</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="gocaozuo2">查看</el-button>
         </div>
 
       </el-card>
@@ -40,7 +35,7 @@
 
         <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">
 
-          <el-form-item label="tpass" :label-width="formLabelWidth" prop="tpass">
+          <el-form-item label="新密码" label-width="formLabelWidth" prop="tpass">
             <el-input style="width: 200px"
                       placeholder="请输入新密码"
                       v-model="form.tpass"
@@ -64,84 +59,49 @@
 
 <script>
 import request from "../util/request";
-
+//检查密码
+var checktpass = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入密码'));
+  }
+  else {callback();}
+};
 export default {
   name: "teacher_caozuo",
   data() {
+
+    var curtno = this.$route.query.tno
     return {
       form:{
-        kno:'',
+        tno: curtno,
         tpass:'',
       },
-      search: '',
+      rules: {
+        tpass:[ { validator: checktpass, trigger: 'blur'  } ],
+      }
     };
   },
-
   methods: {
-
     gocaozuo2(){
       this.$router.push({
         path:'../teacher_caozuo2'
       })
     },
-
-
-
-
-
     save(form) {
       this.$refs[form].validate((valid) => {
+        var qs = require('querystring')
         if (valid) {
-
-          request.post("/api/person/addPerson", this.form).then(res => {
-
-            console.log(res.data); //打印出来
-            if ((res.data !== 0)) {
-              if ((res.data === 1)){
-                this.$message({
-                  type: "success",
-                  message: "成功添加"+this.form.name
-                })
-              }else{
-                this.$confirm("用户名"+this.form.username+"已存在，需要修改信息吗？", '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'warning'
-                }).then(() => {
-                  request.put("/api/person/updatePerson",this.form).then(res=> {
-                    console.log(res) //打印出来
-                    if (res.code !== '0') {
-                      this.$message({
-                        type: "success",
-                        message: "修改成功"
-                      })
-
-                    }
-                  });
-
-                }).catch(() => {
-                  this.$message({
-                    type: 'info',
-                    message: '已取消修改'
-                  });
-                });
-              }
-
-            } else {
-              this.$message({
-                type: "error",
-                message: "名称"+this.form.name+"重复,请重新填写"
-              })
-            }
+          request.post("/teaUpdatePwd", qs.stringify(this.form)).then(res => {
+            this.$message({
+              message:res.data.msg
+            })
           })
         }
       });
     },
   }
-
 }
 </script>
 
 <style scoped>
-
 </style>

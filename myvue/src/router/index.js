@@ -60,7 +60,17 @@ export default new VueRouter({
         path: 'userhome',
         name: 'userhome',
         component: () => import("@/components/userhome")
-      }
+      },
+        {
+          path: 'tourist_caozuo',
+          name: 'tourist_caozuo',
+          component: () => import("@/components/tourist_caozuo")
+        },        {
+          path: 'ziliao',
+          name: 'ziliao',
+          component: () => import("@/components/ziliao")
+        },
+
     ]
 
     }

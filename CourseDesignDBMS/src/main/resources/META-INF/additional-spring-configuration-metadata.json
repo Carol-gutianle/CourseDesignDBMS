@@ -4,5 +4,10 @@
       "name": "file.upload",
       "type": "java.lang.String",
       "description": "Description for file.upload."
+    },
+    {
+      "name": "file",
+      "type": "java.lang.String",
+      "description": "Description for file."
     }
   ] }
