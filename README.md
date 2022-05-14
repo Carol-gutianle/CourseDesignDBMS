@@ -108,57 +108,57 @@
 
 在登录页面选择学生登录，登录成功后即可跳转到学生操作页面
 
-![qh_1.png](image\qh_1.png)
+![qh_1.png](image/qh_1.png)
 
 在学生操作页面有以下功能可以实现，分别是：
 
 **选题申请：**
 
-![qh2.png](image\qh2.png)
+![qh2.png](image/qh2.png)
 
 **选题情况查询：**
 
-![qh3.png](image\qh3.png)
+![qh3.png](image/qh3.png)
 
 **查看资料：**
 
-![qh4.png](image\qh4.png)
+![qh4.png](image/qh4.png)
 
 **上传报告：**
 
-![qh5.png](image\qh5.png)
+![qh5.png](image/qh5.png)
 
 **修改密码：**
 
-![qh6.png](image\qh6.png)
+![qh6.png](image/qh6.png)
 
 **查询成绩：**
 
-![qh7.png](image\qh7.png)
+![qh7.png](image/qh7.png)
 
 #### 教师页面：
 
 在登录界面选择教师登录，登录成功后即可跳转到教师操作界面
 
-![qh8.png](image\qh8.png)
+![qh8.png](image/qh8.png)
 
 教师操作页面分别有以下功能：
 
 **查看学生选题情况：**
 
-![qh9.png](image\qh9.png)
+![qh9.png](image/qh9.png)
 
 **上传文件或资料：**
 
-![qh10.png](image\qh10.png)
+![qh10.png](image/qh10.png)
 
 **修改密码：**
 
-![qh11.png](image\qh11.png)
+![qh11.png](image/qh11.png)
 
 **评分：**
 
-![qh12.png](image\qh12.png)
+![qh12.png](image/qh12.png)
 
 
 
@@ -166,13 +166,13 @@
 
 在登录界面选择游客登录，登录成功后即可进行游客操作页面
 
-![qh13.png](image\qh13.png)
+![qh13.png](image/qh13.png)
 
 在游客操作页面有以下功能：
 
 **查看题库和资料：**
 
-![qh14.png](image\qh14.png)
+![qh14.png](image/qh14.png)
 
-![qh15.png](image\qh15.png)
+![qh15.png](image/qh15.png)
 
