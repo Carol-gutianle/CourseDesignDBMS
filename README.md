@@ -62,13 +62,13 @@
 
 #### 资料
 
-![zd5.png](image/zd5.png)
+![1.png](image/1.png)
 
 ## 概念结构设计
 
 ### E-R图（by powerdesigner）
 
-![er.png](image/er.png)
+![2.png](image/2.png)
 
 ## 逻辑结构设计
 
@@ -86,7 +86,7 @@
 
 #### 模型结构图（by powerdesigner）
 
-![w1.png](image/w1.png)
+![3.png](image/3.png)
 
 ## 物理设计
 
