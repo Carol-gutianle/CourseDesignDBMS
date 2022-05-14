@@ -6,15 +6,15 @@
 
       <el-card style="width: 40%; margin: 10px">
 
-        <el-form :model="form"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="form">
+        <el-form :model="uploadform"  class="demo-ruleForm" label-position="left" label-width="80px"  status-icon :rules="rules" ref="uploadform">
 
           <i class="el-icon-user"></i>
           <p>选题申请</p>
 
-          <el-form-item label="学号" label-width="formLabelWidth" prop="sno">
+          <el-form-item label="题号" label-width="formLabelWidth" prop="qno">
             <el-input style="width: 200px"
-                      placeholder="请输入学号"
-                      v-model="form.sno"
+                      placeholder="请输入题号"
+                      v-model="uploadform.qno"
                       clearable>
             </el-input>
           </el-form-item>
@@ -27,7 +27,7 @@
         </el-form>
 
         <div style="text-align: center">
-          <el-button type="primary" icon="el-icon-edit" @click="submit('form')">提交</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="submit('uploadform')">提交</el-button>
         </div>
 
       </el-card>
@@ -62,7 +62,7 @@
             <el-upload
               class="upload-demo"
               ref="upload"
-              action="/api/upload"
+              action="/stuUpload"
               :http-request="httprequest"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
@@ -133,6 +133,12 @@ var checksno = (rule, value, callback) => {
   }
   else {callback();}
 };
+var checkqno = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请输入学号'));
+  }
+  else {callback();}
+};
 //检查密码
 var checkspwd = (rule, value, callback) => {
   if (!value) {
@@ -148,7 +154,7 @@ var checknspwd = (rule, value, callback) => {
   else {callback();}
 };
 
-//检查
+//检查题号
 var checkth = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('请输入题号'));
@@ -169,27 +175,25 @@ export default {
       console.log(this.value)
     })
     /*获取题号*/
-
     return {
-      /*---------------------------------lxt 文件上传----------------------------------*/
       fileList: [],
       fd: {},
       newform1:{
-
         th: curqno
       },
-      /*---------------------------------lxt 文件上传----------------------------------*/
-
-
       isleader: false,
       cursno: cursno,
       newform:{
         sno: cursno,
         nspwd: ''
       },
-
+      uploadform: {
+        sno: cursno,
+        qno:'',
+        isleader:this.isleader
+      },
       form:{
-        sno: this.cursno,
+        sno: cursno,
         sname: '',
         sclass:'',
         sleader:'',
@@ -203,14 +207,11 @@ export default {
         spwd:[ { validator: checkspwd, trigger: 'blur'  } ],
         nspwd:[ { validator: checknspwd, trigger: 'blur'  } ],
         th:[ { validator: checkth, trigger: 'blur'  } ],
+        qno:[ { validator: checkqno, trigger: 'blur'  } ]
       }
     };
   },
-
-
-
   methods: {
-    /*---------------------------------lxt 文件上传----------------------------------*/
     getfile(file, fileList) {
       const fd = new FormData()// FormData 对象
       this.fd = fd
@@ -224,12 +225,13 @@ export default {
       this.fd.append('th', this.newform1.th)
 
       // uploadAnnex(this.fd).then(res => {
-      request.post("/api/upload", this.fd).then(res=>{
+      request.post("/stuUpload", this.fd).then(res=>{
         if(res.data.code===200) {
           this.$message({
             type: "success",
             message: "上传成功！"
           })
+
         }
         else {
           this.$message({
@@ -248,19 +250,15 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
-    /*---------------------------------lxt 文件上传----------------------------------*/
-
-
-
     isLeader() {
       this.isleader = !this.isleader;
     },
-
     newpass(newform){
       var qs = require('querystring')
       this.$refs[newform].validate((valid) => {
         if (valid) {
           request.post("/stuUpdatePwd",qs.stringify(this.newform)).then(res=>{
+            this.newform.nspwd = ''
             this.$message({
               type: "success",
               message:"更新成功！"
@@ -269,7 +267,6 @@ export default {
         }
       })
     },
-
     runToQue(){
       this.$router.push({
         path:'../tiku'
@@ -280,23 +277,16 @@ export default {
         path:'../ziliao'
       })
     },
-    submit(form) {
-      this.$refs[form].validate((valid) => {
+    submit(uploadform) {
+      this.$refs[uploadform].validate((valid) => {
         var qs = require('querystring')
+        console.log(valid)
         if(valid) {
-          request.post("/chooseQue",qs.stringify(this.form)).then(res=>{
-            if(res.data.code===200) {
-              this.$message({
-                type: "success",
-                message: "上传成功！"
-              })
-            }
-            else {
-              this.$message({
-                type: "error",
-                message: "上传失败！"
-              })
-            }
+          request.post("/chooseQue",qs.stringify(this.uploadform)).then(res=>{
+            this.$message({
+              message: res.data.msg
+            })
+
           })
         }
       })

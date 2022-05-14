@@ -11,7 +11,7 @@
 
           <el-form-item label="学号" label-width="formLabelWidth" prop="sno">
             <el-input style="width: 200px"
-                      placeholder="请输入姓名"
+                      placeholder="请输入学号"
                       v-model="form.sno"
                       clearable>
             </el-input>

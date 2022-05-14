@@ -101,7 +101,6 @@ public class Handler {
     }
     /*学生选题*/
     @ResponseBody
-    @CrossOrigin
     @RequestMapping("chooseQue")
     public Map chooseQue(@RequestParam String sno,String qno,boolean isLeader) {
         HashMap<String,Object> response = new HashMap<>();
@@ -109,7 +108,6 @@ public class Handler {
         /*判断是否已经选题*/
         String isChosen = db.isChosen(sno);
         if(isChosen != null) {
-//            System.out.println(isChosen);
             response.put("msg", "已选题！");
         } else {
             /*修改个人选题表*/
@@ -184,6 +182,20 @@ public class Handler {
     }
     /*教师查看设计报告*/
     /*上传课程设计题目*/
+    @ResponseBody
+    @RequestMapping("uploadQue")
+    public Map uploadQue(String qname) {
+        HashMap<String,Object> response = new HashMap<String,Object>();
+        /*查询题库数目*/
+        Integer numOfQue = db.seleQueName().size();
+        /*插入课程题库*/
+        if(db.uploadQue((numOfQue+1),qname)) {
+            response.put("msg","添加题目成功");
+        } else {
+            response.put("msg","添加题目失败");
+        }
+        return response;
+    }
     /*上传学习资料*/
     /*查看课程设计题目*/
     @ResponseBody
@@ -199,6 +211,18 @@ public class Handler {
         return response;
     }
     /*查看学习资料*/
+    @ResponseBody
+    @RequestMapping("getResource")
+    public Map getResource() {
+        HashMap<String,Object> response = new HashMap<String,Object>();
+        if(db.getResource().size()!=0) {
+            response.put("data",db.getResource());
+            response.put("msg","获取题库成功");
+        } else {
+            response.put("msg","获取题库失败");
+        }
+        return response;
+    }
     /*查询选题情况*/
     @ResponseBody
     @RequestMapping("seleGData")
@@ -212,6 +236,7 @@ public class Handler {
         }
         return response;
     }
+
 
 
 

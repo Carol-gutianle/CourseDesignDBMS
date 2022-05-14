@@ -15,24 +15,26 @@
       style="width: 100%">
       <el-table-column
         fixed
-        prop="资料编号"
-        label="资料编号"
+        prop="题号"
+        label="题号"
         width="100">
       </el-table-column>
       <el-table-column
         fixed
-        prop="资料内容"
-        label="资料内容"
+        prop="学习资料"
+        label="学习资料"
         width="100">
       </el-table-column>
 
       <el-table-column
-        label="下载"
+        fixed
+        prop="下载地址"
+        label="下载地址"
         width="100">
-        <el-link href="https://element.eleme.io" target="_blank">下载链接</el-link>
+        <template slot-scope="scope">
+          <el-link :href="tableData[scope.$index]['下载地址']" target="_blank">报告链接</el-link>
+        </template>
       </el-table-column>
-
-
 
     </el-table>
 
@@ -57,6 +59,14 @@ import request from "../util/request";
 
 export default {
   name: "ziliao",
+  data(){
+    request.post("/getResource").then(res=>{
+      this.tableData = res.data.data
+    })
+    return {
+  tableData: []
+    }
+  }
 }
 
 </script>

@@ -53,4 +53,15 @@ public interface DataBase {
     /*获取学生选题情况数据：题号 小组长 工作报告 进度情况 分数*/
     @Select("select * from 课程学生用")
     List<Map<String,Object>>seleGData();
+    /*上传题目*/
+    @Insert("insert into 题库 values(#{qno},#{qname})")
+    boolean uploadQue(int qno, String qname);
+    @Insert("insert into 资料(题号,学习资料,下载地址) values (#{qno},#{qname},#{qpath})")
+    boolean addRecord1(String qno,String qname,String qpath);
+    /*判断是否已有题目*/
+    @Select(("select 题号 from 题库 where 题号=#{qno}"))
+    String que_ishave(String qno);
+    /*查看资料*/
+    @Select("select * from 资料")
+    List<Map<String,Object>>getResource();
 }

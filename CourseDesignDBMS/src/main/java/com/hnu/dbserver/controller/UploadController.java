@@ -3,6 +3,7 @@ package com.hnu.dbserver.controller;
 import com.hnu.dbserver.mapper.DataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Component
+@CrossOrigin
 @RestController
 public class UploadController {
     @Autowired
@@ -55,6 +57,24 @@ public class UploadController {
         else{
             response.put("code", 404);
             response.put("msg", "上传报告失败！");
+        }
+        return response;
+
+    }
+    @PostMapping(value = "/teaUpload")
+    public Map teacher_upload(MultipartFile file, String tno, String tname) throws IOException {
+        HashMap<String,Object> response = new HashMap<String,Object>();
+        String qno=tno; //题号获取
+        String qname=tname;
+        String returnPath = upload(file);
+        if(db.addRecord1(qno,qname,returnPath)) {
+
+            response.put("code", 200);
+            response.put("msg", "上传成功！");
+        }
+        else{
+            response.put("code", 404);
+            response.put("msg", "上传失败！");
         }
         return response;
 
