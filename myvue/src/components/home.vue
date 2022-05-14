@@ -181,10 +181,6 @@ export default {
       })
     },
     handleClick(row){
-      // this.form.username=row.username
-      // this.form.name = row.name;
-      // this.form.age = row.age;
-      // this.form.teleno = row.teleno;
       this.form=JSON.parse(JSON.stringify(row))
       this.dialogFormVisible2=true
     },
