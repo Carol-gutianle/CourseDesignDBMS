@@ -28,20 +28,6 @@
 
 
     </el-table>
-
-<!--    <div style="margin: 10px 0">-->
-<!--      <el-pagination-->
-<!--        @size-change="handleSizeChange"-->
-<!--        @current-change="handleCurrentChange"-->
-<!--        :current-page="currentPage4"-->
-<!--        :page-sizes="[5, 10, 15, 20]"-->
-<!--        :page-size="pageSize"-->
-<!--        layout="total, sizes, prev, pager, next, jumper"-->
-<!--        :total="total">-->
-<!--      </el-pagination>-->
-<!--    </div>-->
-
-
   </div>
 </template>
 
